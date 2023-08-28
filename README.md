@@ -2,7 +2,7 @@
 
 ## Built with
 
-- 💿 Remix
-- 🗃️ PostgreSQL
-- 🗺️ Prisma ORM
-- 🔐 bcryptjs
+💿 Remix
+🗃️ PostgreSQL
+🗺️ Prisma ORM
+🔐 bcryptjs
