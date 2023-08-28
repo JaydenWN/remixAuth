@@ -1,3 +1,8 @@
-# User Auth basic project built with:
+# User Auth basic project.
 
-## Remix
+## Built with
+
+- 💿 Remix
+- 🗃️ PostgreSQL
+- 🗺️ Prisma ORM
+- 🔐 bcryptjs
