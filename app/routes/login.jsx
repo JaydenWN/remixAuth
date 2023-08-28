@@ -2,11 +2,22 @@ import { Form } from "@remix-run/react";
 import { db } from "../utils/db.server";
 import bcrypt from "bcryptjs";
 import { redirect } from "@remix-run/node";
+import { getSession, commitSession } from "../utils/session.server";
+
+export async function loader({ request }) {
+  // const session = await getSession(
+  //     request.headers.get('Cookie')
+  // )
+
+  return null;
+}
 
 export async function action({ request }) {
   const formdata = await request.formData();
   const email = formdata.get("email");
   const password = formdata.get("password");
+
+  const session = await getSession(request.headers.get("Cookie"));
 
   const foundUser = await db.userAccount.findUnique({
     where: {
@@ -18,7 +29,12 @@ export async function action({ request }) {
 
   if (foundUser && isCorrectPassword) {
     console.log(`Logged in as : ${foundUser.username}`);
-    return redirect("/");
+    session.set("userId", foundUser.id);
+    return redirect("/", {
+      headers: {
+        "Set-Cookie": await commitSession(session),
+      },
+    });
   }
 
   return null;
