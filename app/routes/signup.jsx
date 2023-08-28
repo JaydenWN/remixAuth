@@ -1,10 +1,21 @@
 import { Form } from "@remix-run/react";
 
+export async function action({ request }) {
+  const formdata = await request.formData();
+
+  const email = formdata.get("email");
+  const username = formdata.get("username");
+  const password = formdata.get("password");
+
+  console.log(email + username + password);
+  return null;
+}
+
 export default function Signup() {
   return (
     <>
       <h1>Sign Up: </h1>
-      <Form>
+      <Form method="POST">
         <label htmlFor="email">Email :</label>
         <input type="email" id="email" name="email" />
 
