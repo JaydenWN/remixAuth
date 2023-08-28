@@ -11,7 +11,18 @@ export async function action({ request }) {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  console.log(email + username + hashedPassword);
+  const createdUser = await db.userAccount.create({
+    data: {
+      email: email,
+      username: username,
+      passwordHash: hashedPassword,
+    },
+  });
+
+  console.log(
+    `Created a user ${createdUser.username} with the email ${createdUser.email}`
+  );
+
   return null;
 }
 
