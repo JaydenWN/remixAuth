@@ -1,11 +1,27 @@
 import { Form } from "@remix-run/react";
+import { db } from "../utils/db.server";
+import bcrypt from "bcryptjs";
+import { redirect } from "@remix-run/node";
 
-export function action({ request }) {
+export async function action({ request }) {
   const formdata = await request.formData();
   const email = formdata.get("email");
   const password = formdata.get("password");
 
+  const foundUser = await db.userAccount.findUnique({
+    where: {
+      email: email,
+    },
+  });
 
+  isCorrectPassword = bcrypt.compareSync(password, foundUser.passwordHash);
+
+  if (foundUser && isCorrectPassword) {
+    console.log(`Logged in as : ${foundUser.username}`);
+    return redirect("/");
+  }
+
+  return null;
 }
 
 export default function Login() {
