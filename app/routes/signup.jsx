@@ -1,4 +1,5 @@
 import { Form } from "@remix-run/react";
+import bcrypt from "bcryptjs";
 
 export async function action({ request }) {
   const formdata = await request.formData();
@@ -7,7 +8,9 @@ export async function action({ request }) {
   const username = formdata.get("username");
   const password = formdata.get("password");
 
-  console.log(email + username + password);
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  console.log(email + username + hashedPassword);
   return null;
 }
 
