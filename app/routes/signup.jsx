@@ -1,5 +1,6 @@
 import { Form } from "@remix-run/react";
 import bcrypt from "bcryptjs";
+import { db } from "../utils/db.server";
 
 export async function action({ request }) {
   const formdata = await request.formData();
