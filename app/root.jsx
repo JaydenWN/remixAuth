@@ -1,6 +1,7 @@
 import { cssBundleHref } from "@remix-run/css-bundle";
 
 import {
+  Form,
   Links,
   LiveReload,
   Meta,
@@ -23,6 +24,16 @@ export default function App() {
         <Links />
       </head>
       <body>
+        <nav>
+          <h1>User Auth Project</h1>
+          <p>Currently signed in as : </p>
+          <a href="/signup">
+            <button>Sign up</button>
+          </a>
+          <a href="/login">
+            <button>Login</button>
+          </a>
+        </nav>
         <Outlet />
         <ScrollRestoration />
         <Scripts />
