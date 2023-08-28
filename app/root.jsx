@@ -8,13 +8,35 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
+
+import { getSession } from "./utils/session.server";
+import { db } from "./utils/db.server";
 
 export const links = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
 
+export async function loader({ request }) {
+  const session = await getSession(request.headers.get("Cookie"));
+  const userId = session.get("userId");
+
+  if (userId) {
+    const user = await db.userAccount.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+    return user;
+  }
+
+  return null;
+}
+
 export default function App() {
+  const userData = useLoaderData();
+
   return (
     <html lang="en">
       <head>
@@ -26,13 +48,23 @@ export default function App() {
       <body>
         <nav>
           <h1>User Auth Project</h1>
-          <p>Currently signed in as : </p>
-          <a href="/signup">
-            <button>Sign up</button>
-          </a>
-          <a href="/login">
-            <button>Login</button>
-          </a>
+          {userData ? (
+            <>
+              <p>Currently signed in as : {userData.username} </p>
+              <Form action="/logout">
+                <input type="submit" value="Logout" />
+              </Form>
+            </>
+          ) : (
+            <>
+              <a href="/login">
+                <button>Login</button>
+              </a>
+              <a href="/signup">
+                <button>Sign up</button>
+              </a>
+            </>
+          )}
         </nav>
         <Outlet />
         <ScrollRestoration />
