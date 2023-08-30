@@ -1,4 +1,4 @@
-import { Form } from "@remix-run/react";
+import { Form, useActionData } from "@remix-run/react";
 import { db } from "../utils/db.server";
 import bcrypt from "bcryptjs";
 import { redirect } from "@remix-run/node";
@@ -35,12 +35,17 @@ export async function action({ request }) {
         "Set-Cookie": await commitSession(session),
       },
     });
+  } else if (!foundUser || !isCorrectPassword) {
+    const signInError = "Incorrect email or password please try again.";
+    return signInError;
   }
 
   return null;
 }
 
 export default function Login() {
+  const actionData = useActionData();
+
   return (
     <>
       <h1>Login</h1>
@@ -53,6 +58,7 @@ export default function Login() {
 
         <input type="submit" value="Login" />
       </Form>
+      <pre style={{ color: "red" }}>{actionData ? actionData : ""}</pre>
     </>
   );
 }
