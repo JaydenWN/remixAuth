@@ -4,6 +4,11 @@ import { db } from "../utils/db.server";
 import validator from "validator";
 import { redirect } from "@remix-run/node";
 import { getSession, commitSession } from "../utils/session.server";
+import styles from "../styles/signup.css";
+
+export function links() {
+  return [{ rel: "stylesheet", href: styles }];
+}
 
 export async function action({ request }) {
   const formdata = await request.formData();
@@ -52,16 +57,16 @@ export default function Signup() {
   const actionData = useActionData();
 
   return (
-    <>
-      <h1>Sign Up: </h1>
+    <div className="pageContent">
+      <h2>Sign Up </h2>
       <Form method="POST">
-        <label htmlFor="email">Email :</label>
+        <label htmlFor="email">Email </label>
         <input type="email" id="email" name="email" required />
 
-        <label htmlFor="username">Username :</label>
+        <label htmlFor="username">Username </label>
         <input type="text" id="username" name="username" required />
 
-        <label htmlFor="password">Password :</label>
+        <label htmlFor="password">Password </label>
         <input
           type="password"
           id="password"
@@ -72,7 +77,7 @@ export default function Signup() {
 
         <input type="submit" value="Sign Up" />
       </Form>
-      <pre style={{ color: "red" }}>{actionData ? actionData : ""}</pre>
-    </>
+      <p>{actionData ? actionData : ""}</p>
+    </div>
   );
 }

@@ -1,0 +1,41 @@
+form{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    background-color:rgb(248, 150, 30) ;
+    padding: 30px;
+    border-radius: 5px;
+}
+form p{
+    color: red;
+    font-weight: bold;
+}
+
+input{
+    margin: 3px 0px 20px;
+    background-color: rgb(249, 199, 79);
+    font-family: 'Montserrat', sans-serif;
+    border: none;
+    padding: 2px 3px;
+    border-radius: 3px;
+}
+input[type=submit]{
+    background-color: rgb(144, 190, 109);
+    cursor: pointer;
+}
+input:focus{
+
+    outline:1px solid rgb(243, 114, 44);
+}
+
+.pageContent{
+    padding-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h2{
+    margin-bottom: 50px;
+}
