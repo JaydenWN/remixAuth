@@ -17,7 +17,17 @@ export async function action({ request }) {
   const username = formdata.get("username");
   const password = formdata.get("password");
 
-  if (validator.isEmail(email) && validator.isStrongPassword(password)) {
+  const isUserCreated = await db.userAccount.findUnique({
+    where: {
+      email: email,
+    },
+  });
+
+  if (
+    validator.isEmail(email) &&
+    validator.isStrongPassword(password) &&
+    !isUserCreated
+  ) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const createdUser = await db.userAccount.create({
@@ -50,6 +60,8 @@ export async function action({ request }) {
     return "Malformed email address try again.";
   } else if (!validator.isStrongPassword(password)) {
     return "Password must contain at least 8 characters long, contain 1 uppercase and lowercase letter, contain at least 1 digit and one special character (e.g., !, @, #, $, %, etc.)";
+  } else if (isUserCreated) {
+    return `Sorry someone has already signed up with the email: ${isUserCreated.email}`;
   } else return "Try again";
 }
 
@@ -76,8 +88,8 @@ export default function Signup() {
         />
 
         <input type="submit" value="Sign Up" />
+        <p>{actionData ? actionData : ""}</p>
       </Form>
-      <p>{actionData ? actionData : ""}</p>
     </div>
   );
 }
