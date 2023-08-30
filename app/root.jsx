@@ -51,7 +51,7 @@ export default function App() {
           {userData ? (
             <>
               <p>Currently signed in as : {userData.username} </p>
-              <Form action="/logout">
+              <Form action="/logout" method="POST">
                 <input type="submit" value="Logout" />
               </Form>
             </>
