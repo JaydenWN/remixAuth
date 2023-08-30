@@ -24,8 +24,11 @@ export async function action({ request }) {
       email: email,
     },
   });
+  let isCorrectPassword = false;
 
-  isCorrectPassword = bcrypt.compareSync(password, foundUser.passwordHash);
+  if (foundUser) {
+    isCorrectPassword = bcrypt.compareSync(password, foundUser.passwordHash);
+  }
 
   if (foundUser && isCorrectPassword) {
     console.log(`Logged in as : ${foundUser.username}`);
